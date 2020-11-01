@@ -42,5 +42,126 @@ doctrine:
 After that, running `symfony console doctrine:mapping:info` you should see the output:
 
 ```
+ Found xx mapped entities:
+
+ [OK]   App\Entity\... #Entities of your own entities
+ ...
+ [OK]   LongitudeOne\SettingsBundle\Entity\Settings
+```
+
+## How to use the settings in your application?
+
+### How to create a settings?
+
+You only have to create an object and to persist it.
+
+```php
+namespace App\Controller;
+
+use Doctrine\ORM\EntityManagerInterface;use LongitudeOne\SettingsBundle\Entity\Settings;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class FooController  extends AbstractController
+{
+    public function create(EntityManagerInterface $entityManager)
+    {
+        $bar = '42'; //$bar can be an array, an object or anything that can be serialized. 
+        $settings = new Settings();
+        $settings->setCode('foo');
+        $settings->setValue($bar);
+
+        $entityManager->persist($settings);
+        $entityManager->flush();
+    }
+}
+```
+
+### How to retrieve a value in a controller
+
+First, you need to add the directory of this bundle to the list of Symfony's autowired services.
+Edit `config/services.yaml`:
+
+```yaml
+# these lines are the default one
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+# only the below lines are added
+    LongitudeOne\SettingsBundle\:
+        resource: '../vendor/longitude-one/settings-bundle/src/LongitudeOne/'
+        exclude:
+            - '../vendor/longitude-one/settings-bundle/src/LongitudeOne/Entity/'
+            - '../vendor/longitude-one/settings-bundle/src/LongitudeOne/Exception/'
+```
+
+Now you're able to call the settings interface in your own controller and in your own services:
+
+```php
+namespace App\Controller;
+
+use LongitudeOne\SettingsBundle\Service\SettingsInterface;use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class FooController  extends AbstractController
+{
+    public function getValue(SettingsInterface $settingsManager)
+    {
+        $value = $settingsManager->getValue('foo');
+        //...
+    }
+}
+```
+
+If the `foo` settings doesn't exist, a SettingsException will be thrown.
+
+### How to retrieve a value in a service
+
+First, you need to add the directory of this bundle to the list of Symfony's autowired services.
+The previous paragraph explain how to do it.
+
+Now, you can use the dependency injection abilities in your services.
+
+```php
+namespace App\Service;
+
+use LongitudeOne\SettingsBundle\Service\SettingsInterface;
+
+class FooService
+{
+    private SettingsInterface $settings;
+    
+    public function __construct(SettingsInterface $settings) {
+        $this->settings=$settings;
+    }
+
+    public function someMethod()
+    {
+        //...
+        $value = $this->settings->getValue('foo');
+        //...
+    }
+}
+```
+
+If the `foo` settings doesn't exist, a SettingsException will be thrown.
+
+### How to retrieve a value in a twig template
+
+```twig
 
 ```
+
