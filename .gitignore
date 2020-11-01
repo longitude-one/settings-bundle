@@ -1,0 +1,6 @@
+.php-version
+.phpunit.result.cache
+*.phar
+composer.lock
+phpunit.xml
+vendor/
