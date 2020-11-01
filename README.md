@@ -19,7 +19,7 @@ To add it to your project:
 ## How to map it on Symfony 5.1+ application
 
 Let's start from the mapping. You will need to map this classes for your ORM to be aware of. 
-To do so, add some mapping info to your doctrine.orm configuration, edit `config/doctrine.yaml`:
+To do so, add some mapping info to your doctrine.orm configuration, edit `config/packages/doctrine.yaml`:
 
 ```yaml
 doctrine:
@@ -36,7 +36,7 @@ doctrine:
                 alias: Settings
                 prefix: LongitudeOne\SettingsBundle\Entity
                 # make sure vendor library location is correct
-                dir: "%kernel.root_dir%/../vendor/longitude-one/settings-bundle/src/LongitudeOne/Entity"
+                dir: "%kernel.project_dir%/vendor/longitude-one/settings-bundle/src/LongitudeOne/Entity"
 ```
 
 After that, running `symfony console doctrine:mapping:info` you should see the output:
