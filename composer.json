@@ -13,12 +13,10 @@
     "php": "^7.4",
     "doctrine/doctrine-bundle": "~2.1.2",
     "doctrine/orm": "~2.7.4",
-    "symfony/config": "~5.1.8",
-    "symfony/dependency-injection": "~5.1.8",
     "symfony/http-kernel": "~5.1.8"
   },
   "require-dev": {
-    "phpunir/phpunit": "~9.1.4"
+    "phpunit/phpunit": "~9.1.4"
   },
   "autoload": {
     "psr-4": {
