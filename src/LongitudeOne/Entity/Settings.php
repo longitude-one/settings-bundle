@@ -51,8 +51,6 @@ class Settings
      * Value is store as a serialized data.
      *
      * @ORM\Column(type="text")
-     *
-     * @Gedmo\Versioned
      */
     private string $value;
 
