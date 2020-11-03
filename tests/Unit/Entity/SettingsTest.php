@@ -21,7 +21,7 @@ class SettingsTest extends TestCase
      *
      * @var Settings
      */
-    protected $settings;
+    protected Settings $settings;
 
     /**
      * Before each test, user is created.
@@ -38,7 +38,7 @@ class SettingsTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->settings = null;
+        unset($this->settings);
     }
 
     /**
