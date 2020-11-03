@@ -7,6 +7,7 @@ namespace LongitudeOne\SettingsBundle\Twig;
 use LongitudeOne\SettingsBundle\Exception\SettingsException;
 use LongitudeOne\SettingsBundle\Service\SettingsService;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class SettingsExtension extends AbstractExtension
@@ -24,16 +25,32 @@ class SettingsExtension extends AbstractExtension
     }
 
     /**
-     * Declare setting as filter.
+     * Declare settings as filter.
      *
      * @return array
      */
     public function getFilters()
     {
         return [
+            'settings' => new TwigFilter(
+                'settings',
+                [$this, 'getSettings'],
+                []
+            ),
+        ];
+    }
+
+    /**
+     * Declare settings as function.
+     *
+     * @return array
+     */
+    public function getFunctions()
+    {
+        return [
             'settings' => new TwigFunction(
                 'settings',
-                [$this, 'settingsFilter'],
+                [$this, 'getSettings'],
                 []
             ),
         ];
@@ -58,7 +75,7 @@ class SettingsExtension extends AbstractExtension
      *
      * @return mixed
      */
-    public function settingsFilter(string $code)
+    public function getSettings(string $code)
     {
         return $this->settings->getValue($code);
     }

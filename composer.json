@@ -1,6 +1,6 @@
 {
   "name": "longitude-one/settings-bundle",
-  "description": "A bundle to manage settings of your application. Administrator will be able to manage value.",
+  "description": "A bundle to retrieve settings of your application.",
   "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
@@ -14,7 +14,7 @@
     "doctrine/doctrine-bundle": "~2.1.2",
     "doctrine/orm": "~2.7.4",
     "symfony/http-kernel": "~5.1.8",
-    "twig/twig": "^2.12|^3.0"
+    "twig/twig": "^2.12|^3.0|^3.1"
   },
   "require-dev": {
     "phpunit/phpunit": "~9.1.4"
