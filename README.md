@@ -161,7 +161,14 @@ If the `foo` settings doesn't exist, a SettingsException will be thrown.
 
 ### How to retrieve a value in a twig template
 
-```twig
+First, you need to add the directory of this bundle to the list of Symfony's autowired services.
+The previous paragraph explain how to do it.
 
+Now, you can use the `settings` filter and the `settings` function to retrieve your application settings.
+
+```twig
+    {{ dump('foo'|settings) }}
+
+    {{ dump(settings('foo')) }}
 ```
 
