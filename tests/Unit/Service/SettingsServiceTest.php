@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SettingsBundle\Tests\Unit\Service;
 
+use LongitudeOne\SettingsBundle\Entity\Settings;
 use LongitudeOne\SettingsBundle\Exception\SettingsException;
 use LongitudeOne\SettingsBundle\Service\SettingsInterface;
 use LongitudeOne\SettingsBundle\Repository\SettingsRepository;
@@ -28,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  * @coversDefaultClass
  */
-class SettingsManagerTest extends TestCase
+class SettingsServiceTest extends TestCase
 {
     /**
      * Settings manager.
@@ -65,7 +66,31 @@ class SettingsManagerTest extends TestCase
      */
     public function testGetValue(): void
     {
+        $code = 'code';
+        $actual = $expected = 'foo';
+        $settings = new Settings();
+        $settings->setValue($actual);
+        $settings->setCode($code);
 
+        $this->mockedRepository->method('findAll')->willReturn([$settings]);
+        self::assertSame($expected, $this->settingsService->getValue($code));
+    }
+
+    /**
+     * Test the getValue method.
+     *
+     * @throws SettingsException this should not happen
+     */
+    public function testGetSettings(): void
+    {
+        $code = 'code';
+        $actual = 'foo';
+        $settings = new Settings();
+        $settings->setValue($actual);
+        $settings->setCode($code);
+
+        $this->mockedRepository->method('findOneByCode')->willReturn($settings);
+        self::assertEquals($settings, $this->settingsService->getSettings($code));
     }
 
     /**

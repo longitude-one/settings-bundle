@@ -97,8 +97,8 @@ class SettingsService implements SettingsInterface
 
         if (null !== $result) {
             foreach ($result as $settings) {
-                /* @var Settings $setting the repository is returning an array of settings */
-                self::$data[$setting->getCode()] = $settings;
+                /* @var Settings $settings the repository is returning an array of settings */
+                self::$data[$settings->getCode()] = $settings;
             }
         }
     }
